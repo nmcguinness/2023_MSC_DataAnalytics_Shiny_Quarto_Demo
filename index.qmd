@@ -4,6 +4,14 @@ format: dashboard
 server: shiny
 ---
 
+<!-- 
+See the following for options relating to Shiny & Quarto:
+- https://quarto.org/docs/dashboards/layout.html
+- https://quarto.org/docs/dashboards/interactivity/
+- https://quarto.org/docs/dashboards/interactivity/shiny-r.html
+-->
+
+
 # Tables - MT Cars
 
 ```{r}
