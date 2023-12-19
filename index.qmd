@@ -1,0 +1,209 @@
+---
+title: "2023_MSC_DataAnalytics_Shiny_Quarto_Demo"
+format: dashboard
+server: shiny
+---
+
+# Tables - MT Cars
+
+```{r}
+#| title: MT Cars Dataset
+
+# Create a table with the DT package 
+datatable(head(mtcars))
+
+```
+
+# Tables - Air Quality
+
+```{r}
+#| title: Scatterplot of Some Data vs Some Other Data
+
+set.seed(123) # fo {r reproducibility
+data <- data.frame(x = rnorm(100), y = rnorm(100))
+
+my_plot <- ggplot(data, aes(x = x, y = y)) + 
+    geom_point() +
+    theme_minimal() +
+    labs(x = "X-Axis",
+         y = "Y-Axis")
+
+ggplotly(my_plot)
+
+```
+
+# Two Hoverable Plots
+
+## Column {width=60%}
+
+```{r}
+#| title: Scatterplot of Some Data vs Some Other Data
+
+set.seed(123) # fo {r reproducibility
+data <- data.frame(x = rnorm(100), y = rnorm(100))
+
+my_plot <- ggplot(data, aes(x = x, y = y)) + 
+    geom_point() +
+    theme_minimal() +
+    labs(x = "X-Axis",
+         y = "Y-Axis")
+
+ggplotly(my_plot)
+
+```
+
+## Column {width=40%}
+
+```{r}
+#| title: Histogram of Yet More Data
+
+data <- data.frame(x = rnorm(100))
+
+# Create a histogram
+my_plot <-  ggplot(data, aes(x = x)) + 
+    geom_histogram(bins = 30, fill = "blue", color = "black") +
+    theme_minimal() +
+    labs(x = "X Values",
+         y = "Frequency")
+
+ggplotly(my_plot)
+
+```
+
+# Some Value Boxes
+
+## Row
+
+```{r}
+#| content: valuebox
+#| height: 20%
+#| title: "Max Wind(mph) - May - Sept"
+
+list(
+  #See https://icons.getbootstrap.com/
+  icon = "wind",  
+  color = "#1982ff",
+  value = max(airquality$Wind, na.rm = TRUE) #na.rm ignores NA values
+)
+```
+
+```{r}
+#| content: valuebox
+#| height: 20%
+#| title: "Avg Temp(F) - May - Sept"
+
+mean_temp <- round(mean(airquality$Temp, na.rm = TRUE), 1)  # we can write code and use it in the list below
+
+list(
+  #we can also write code inside the list to change icons, colors, or values based on condition or other variable(s)
+  icon = ifelse(mean_temp > 100, "thermometer-full", ifelse(mean_temp > 75, "thermometer-half", "thermometer")), 
+  color = ifelse(mean_temp > 100, "red", ifelse(mean_temp > 75, "orange", "green")), 
+  value = mean_temp
+)
+```
+
+```{r}
+#| content: valuebox
+#| height: 20%
+#| title: "Ozone - May - Sept"
+
+med_ozone <- median(airquality$Ozone, na.rm = TRUE)
+
+list(
+  icon = ifelse(med_ozone > 30, "clouds", "cloud"),
+  color = "#ffca3a",
+  value = med_ozone
+)
+```
+
+## Row 
+
+```{r}
+#| title: Boxplots of Temperature (May - Sept 2022)
+
+
+# month names for x-axis
+month.names <- c("May", "June", "July", "August", "September")
+
+# this was generated using esquisse
+p <- ggplot(airquality) +
+  aes(x = factor(Month, labels = month.names), 
+      y = Temp, 
+      fill = Month) +
+  geom_violin(adjust = 0.4, scale = "area") +
+  scale_fill_distiller(palette = "RdYlBu", 
+                       direction = 1) +
+  labs(
+    x = "Month",
+    y = "Temperature(F)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  facet_wrap(
+    vars(Month),
+    scales = "free_x",
+    ncol = 5L,
+    nrow = 1L
+  )
+
+ggplotly(p)
+
+```
+
+# Interactive Plot (using Shiny input)
+
+```{r}
+#| context: data
+#| include: false
+#| cache: true
+
+# See https://quarto.org/docs/interactive/shiny/execution.html#context-data
+
+# This chunk will be executed during render and any R objects it creates will be saved to an .RData file, which will then be loaded during Shiny server startup. This means we can share data from the render to the server.
+
+dataset <- airquality$Temp
+
+min_breaks <- 1
+max_breaks <- 50
+start_breaks <- 30
+
+```
+
+###  {.sidebar}
+
+```{r}
+
+sliderInput("bins", "Number of bins:", 
+            min = min_breaks, max = max_breaks, value = start_breaks)
+
+br()
+
+selectInput('plotcolor', 'Color', c("grey", "red","green","blue","orange","yellow"))
+
+
+```
+
+### Column
+
+```{r}
+#| title: Boxplots of Temperature (May - Sept 2022)
+
+plotOutput("my_plot")
+```
+
+
+```{r}
+#| context: server
+
+output$my_plot <- renderPlot({
+   x <- dataset
+   bins <- seq(min(x), max(x), length.out = input$bins + 1)
+   hist(x, breaks = bins, 
+        col = input$plotcolor,
+        main = "")
+})
+
+```
+
+
+

@@ -2,6 +2,18 @@
 .Rhistory
 .Rapp.history
 
+# renv data
+renv/library/
+
+# sites files
+_site/
+
+# files generated for each qmd file
+*_data/
+*_files/
+*_cache/
+
+
 # Session Data files
 .RData
 .RDataTmp
@@ -47,3 +59,5 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+/.quarto/
