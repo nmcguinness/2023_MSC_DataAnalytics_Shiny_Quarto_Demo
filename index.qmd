@@ -1,5 +1,5 @@
 ---
-title: "2023_MSC_DataAnalytics_Shiny_Quarto_Demo"
+title: "Creating Shiny Apps with Quarto Dashboard"
 format: dashboard
 server: shiny
 ---
@@ -158,7 +158,20 @@ ggplotly(p)
 
 ```
 
-# Interactive Plot (using Shiny input)
+# Interactive Plot (using Shiny)
+
+```{r}
+#| context: server-start
+
+# See https://quarto.org/docs/interactive/shiny/execution.html#context-server-start
+
+# In here we could add code (e.g., obtain a connection to a DB, read a CSV, download a ZIP from a remote source) that is run once and shared across multiple open sessions (i.e. multiple browser views of these pages that the user may open in Chrome/Edge)
+
+# library(DBI)
+# db <- dbConnect(...)
+```
+
+
 
 ```{r}
 #| context: data
