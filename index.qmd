@@ -4,13 +4,20 @@ format: dashboard
 server: shiny
 ---
 
-<!-- 
-See the following for options relating to Shiny & Quarto:
-- https://quarto.org/docs/dashboards/layout.html
-- https://quarto.org/docs/dashboards/interactivity/
-- https://quarto.org/docs/dashboards/interactivity/shiny-r.html
--->
+# Home
 
+This example demonstrates some elements that may be useful when completing ICA2 including:
+
+* Displaying datasets
+* Adding input fields to support interaction
+* Laying out components with columns, rows, and sidebars
+* Caching data and sharing data across sessions 
+* Adding value boxes
+
+The links below are a great place to learn more about **Quarto Dashboards** (i.e., the technology that simplifies laying out pages) and **Shiny Apps** (i.e., the technology that creates a server to dynamically render an interactive page).
+
+* [Dashboard Layout](https://quarto.org/docs/dashboards/layout.html)
+* [Dashboards with Shiny for R](https://quarto.org/docs/dashboards/interactivity/shiny-r.html)
 
 # Tables - MT Cars
 
