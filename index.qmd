@@ -8,7 +8,7 @@ server: shiny
 
 This example demonstrates some elements that may be useful when completing ICA2 including:
 
-* Displaying datasets
+* Displaying datasets in tables
 * Adding input fields to support interaction
 * Laying out components with columns, rows, and sidebars
 * Caching data and sharing data across sessions 
